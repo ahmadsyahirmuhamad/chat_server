@@ -3,6 +3,7 @@ defmodule ChatServer.Account.User do
   import Ecto.Changeset
   alias ChatServer.Account.User
 
+  @derive {Poison.Encoder, only: [:id, :email, :first_name, :last_name]}
 
   schema "users" do
     field :email, :string
@@ -17,11 +18,10 @@ defmodule ChatServer.Account.User do
   end
 
   @doc false
-
-  def changeset(:create, struct, params) do
+  def changeset(:create, %User{} = struct, attrs) do
     struct
-    |> cast(attrs, [:email, :first_name, :last_name, :password_hash])
-    |> validate_required([:email, :first_name, :last_name, :password_hash])
+    |> cast(attrs, [:email, :first_name, :last_name, :password, :password_confirmation])
+    |> validate_required([:email, :first_name, :last_name, :password, :password_confirmation])
     |> unique_constraint(:email)
     |> validate_confirmation(:password)
     |> generate_password_hash()
