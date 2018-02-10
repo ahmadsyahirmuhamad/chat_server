@@ -1,7 +1,6 @@
 defmodule ChatServer.Resolvers.SessionResolver do
 
   alias ChatServer.Repo
-  # alias ChatServer.Account.User
   alias ChatServer.Auth.Auth
 
   def login(_parent, args, _context) do

@@ -9,6 +9,14 @@ defmodule ChatServerWeb.Schema.UserTypes do
     field :last_name, :string
     field :inserted_at, :string
     field :updated_at, :string
+    field :token, :string do
+      resolve fn user, _, _ ->
+        case ChatServer.Guardian.encode_and_sign(user) do
+          {:ok, jwt, _ } -> {:ok, jwt}
+          _ -> {:ok, nil}
+        end
+      end
+    end
   end
 
   object :session do
