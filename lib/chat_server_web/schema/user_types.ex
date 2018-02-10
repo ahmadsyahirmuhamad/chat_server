@@ -11,4 +11,8 @@ defmodule ChatServerWeb.Schema.UserTypes do
     field :updated_at, :string
   end
 
+  object :session do
+    field :token, :string
+  end
+
 end
