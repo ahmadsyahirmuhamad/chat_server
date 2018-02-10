@@ -44,6 +44,9 @@ defmodule ChatServer.Mixfile do
       {:guardian, "~> 1.0"},
       {:comeonin, "~> 4.0"},
       {:bcrypt_elixir, "~> 0.12"},
+      {:absinthe, "~> 1.4.0"},
+      {:absinthe_plug, "~> 1.4.2"},
+      {:absinthe_ecto, git: "https://github.com/absinthe-graphql/absinthe_ecto.git"},
     ]
   end
 

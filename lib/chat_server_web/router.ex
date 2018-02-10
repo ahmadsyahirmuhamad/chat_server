@@ -17,23 +17,33 @@ defmodule ChatServerWeb.Router do
     plug ChatServer.AuthAccessPipeline
   end
 
+  pipeline :graphql do
+    plug ChatServerWeb.Context
+  end
+
   scope "/", ChatServerWeb do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
   end
 
-  scope "/api", ChatServerWeb.Api do
-    pipe_through [:api]
-    post "/sessions", SessionController, :create
-  end
+  # depreciated
+  # scope "/api", ChatServerWeb.Api do
+  #   pipe_through [:api, :api_authenticated]
 
-  scope "/api", ChatServerWeb.Api do
-    pipe_through [:api, :api_authenticated]
-  end
-
-  # Other scopes may use custom stacks.
-  # scope "/api", ChatServerWeb do
-  #   pipe_through :api
+  #   post "/sessions", SessionController, :create
   # end
+
+  scope "/api" do
+    pipe_through [:api, :api_authenticated, :graphql]
+
+    forward "/graphql", Absinthe.Plug,
+      schema: ChatServerWeb.Schema
+
+
+  end
+
+  forward "/graphiql", Absinthe.Plug.GraphiQL,
+      schema: ChatServerWeb.Schema
+
 end

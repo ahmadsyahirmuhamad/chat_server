@@ -3,7 +3,7 @@ defmodule ChatServer.AuthAccessPipeline do
 
   plug Guardian.Plug.VerifyHeader
   plug Guardian.Plug.VerifySession
-  plug Guardian.Plug.EnsureAuthenticated
+  # plug Guardian.Plug.EnsureAuthenticated
   plug Guardian.Plug.LoadResource, allow_blank: true
 
   # conn.assigns.current_user
