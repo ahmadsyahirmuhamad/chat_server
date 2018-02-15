@@ -8,6 +8,7 @@
     <meta name="author" content="">
 
     <title>Hello ChatServer!</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
   </head>
 
