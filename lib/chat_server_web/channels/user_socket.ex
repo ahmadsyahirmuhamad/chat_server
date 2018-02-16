@@ -2,11 +2,12 @@ defmodule ChatServerWeb.UserSocket do
   use Phoenix.Socket
 
   ## Channels
-  channel "rooms:*", ChatServerWeb.RoomChannel
+  channel "floating:msg", ChatServerWeb.FloatingChannel # capture all {new:msg} event message
+  channel "rooms:*", ChatServerWeb.RoomChannel # private channel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket
-  transport :longpoll, Phoenix.Transports.LongPoll
+  # transport :longpoll, Phoenix.Transports.LongPoll
 
   # Socket params are passed from the client and can
   # be used to verify and authenticate a user. After

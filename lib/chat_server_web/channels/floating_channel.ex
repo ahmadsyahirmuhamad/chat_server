@@ -1,9 +1,9 @@
-defmodule ChatServerWeb.RoomChannel do
+defmodule ChatServerWeb.FloatingChannel do
   use Phoenix.Channel
   require Logger
 
-  # private channel
-  def join("rooms:" <> private_subtopic, message, socket) do
+  # public channel
+  def join("floating:msg", message, socket) do
     Process.flag(:trap_exit, true)
     :timer.send_interval(10000, :ping)
     send(self, {:after_join, message})
@@ -15,8 +15,7 @@ defmodule ChatServerWeb.RoomChannel do
     {:error, %{reason: "unauthorized"}}
   end
 
-  def handle_info({:after_join, msg}, socket) do
-    broadcast! socket, "user:entered", %{user: msg["user"]}
+  def handle_info({:after_join, _msg}, socket) do
     push socket, "join", %{status: "connected"}
     {:noreply, socket}
   end
@@ -35,7 +34,7 @@ defmodule ChatServerWeb.RoomChannel do
 
   # event
   def handle_in("new:msg", msg, socket) do
-    ChatServerWeb.Endpoint.broadcast("floating:msg", "new:msg", msg) # send to floating channel
+    broadcast! socket, "new:msg", %{id: msg["id"], user: msg["user"], body: msg["body"]}
     {:reply, {:ok, %{msg: msg["body"]}}, assign(socket, :user, msg["user"])}
   end
 
